@@ -1,0 +1,26 @@
+<div *ngIf="questions.length > 0 && !scoreVisible">
+<p>Question {{currentQuestionIndex + 1}}/{{questions.length}}</p>
+<p>{{ questions[currentQuestionIndex].category.category }}</p>
+  <p>{{ questions[currentQuestionIndex].question }}</p>
+<p *ngIf="resultAnswer">{{ resultAnswer }}</p>
+  <div *ngFor="let answer of questions[currentQuestionIndex].answers; let j = index">
+    <input
+      type="radio"
+      name="question{{currentQuestionIndex}}"
+      value="{{j}}"
+      [(ngModel)]="userAnswers[currentQuestionIndex]"
+      (change)="onAnswerSelect()"
+    >{{answer.answer}}
+  </div>
+
+  <!-- <button (click)="prevQuestion()" [disabled]="currentQuestionIndex === 0">Précédent</button>
+  <button (click)="nextQuestion()" [disabled]="currentQuestionIndex === questions.length - 1 || !isAnswerSubmitted">Suivant</button> -->
+  <button (click)="submitAnswers()" [disabled]="!isAnswerSelected">Soumettre</button>
+  <button (click)="nextQuestion()" [disabled]="currentQuestionIndex === questions.length - 1 || !isAnswerSubmitted">Suivant</button>
+
+</div>
+<div>
+  <p *ngIf="questions.length === 0">Aucune question</p>
+  <div *ngIf="scoreVisible">Réponses soumises
+  <p>Score: {{score}}/{{questions.length}}</p></div>
+</div>

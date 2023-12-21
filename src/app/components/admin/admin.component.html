@@ -1,0 +1,26 @@
+<p>admin works!</p>
+<form [formGroup]="form" (ngSubmit)="form.valid && onSubmit()">
+    <div class="form-group">
+        <label for="question">Question</label>
+        <input 
+        type="text" 
+        class="form-control" 
+        formControlName="question"
+        placeholder="Question"
+        required>
+    </div>
+    <div formArrayName="answers">
+        <div *ngFor="let objet of answersArray.controls; let i = index" [formGroupName]="i">
+          <!-- définir les champs pour chaque objet -->
+        <label>Réponse 
+        <input type="text" formControlName="answer"></label>
+        <input type="checkbox" formControlName="isCorrect"> Correct
+        </div>
+      </div>
+      <button type="button" (click)="pushAnswers()">Ajouter Objet</button>
+ 
+
+    <div class="mt-5">
+        <button type="submit" class="btn btn-purple">Valider</button>
+    </div>
+</form>
