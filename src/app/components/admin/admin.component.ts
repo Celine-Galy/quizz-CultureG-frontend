@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionService } from '../../services/question.service';
 import { FormArray, FormBuilder, FormGroup, } from '@angular/forms';
-import { AnswerService } from 'src/app/services/answer.service';
+import { CategoryService } from '../../services/category.service';
+import { Answer, Category } from '../../model/model';
+import { Difficulty } from '../../model/model';
+import { DifficultyService } from '../../services/difficulty.service';
 
 @Component({
   selector: 'app-admin',
@@ -10,17 +13,27 @@ import { AnswerService } from 'src/app/services/answer.service';
 })
 export class AdminComponent implements OnInit{
   form!: FormGroup
+  public categories: Category[] = [];
+  public levels: Difficulty[] = []
 
   constructor(
     private questionService: QuestionService,
-    private answerService: AnswerService,
+    private categoryService: CategoryService,
+    private difficultyService: DifficultyService,
     private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit(): void {
-    this.questionService.getQuestions().subscribe(
-      questions => {
-        console.log(questions);
+    this.categoryService.getCategories().subscribe(
+      categories => {
+        this.categories = categories;
+        console.log('categories', categories);
+      }
+    );
+    this.difficultyService.getDifficulties().subscribe(
+      levels => {
+        this.levels = levels;
+        console.log('levels', levels);
       }
     );
     this.form = this.formBuilder.group({
@@ -47,15 +60,12 @@ export class AdminComponent implements OnInit{
 
   
   onSubmit() {
-    this.form.value.category = 4
-    this.form.value.difficulty = 2
-    this.form.value.answers = this.form.value.answers.filter((answer: any) => answer.answer !== '');
+    this.form.value.answers = this.form.value.answers.filter((answer: Answer) => answer.answer !== '');
     this.form.value.answers.forEach((answer: any) => {
       answer.isCorrect = answer.isCorrect;
       answer.answer = answer.answer.trim();
     }
     );
-    console.log('form', this.form);
     //this.form.value.answers = this.form.value.answers.filter((answer: any) => answer.answer !== '');
     console.log('form', this.form);
       if(this.form.valid) {

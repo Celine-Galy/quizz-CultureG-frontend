@@ -1,6 +1,18 @@
 <p>admin works!</p>
 <form [formGroup]="form" (ngSubmit)="form.valid && onSubmit()">
     <div class="form-group">
+        <label for="category">Catégorie</label>
+        <select class="form-control" formControlName="category">
+          <option *ngFor="let category of categories" [value]="category.id">{{category.category}}</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="level">Niveau</label>
+        <select class="form-control" formControlName="difficulty">
+          <option *ngFor="let level of levels" [value]="level.id">{{level.difficulty}}</option>
+        </select>
+    </div>
+    <div class="form-group">
         <label for="question">Question</label>
         <input 
         type="text" 

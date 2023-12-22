@@ -1,9 +1,10 @@
 <div *ngIf="questions.length > 0 && !scoreVisible">
 <p>Question {{currentQuestionIndex + 1}}/{{questions.length}}</p>
 <p>{{ questions[currentQuestionIndex].category.category }}</p>
+<p>{{ questions[currentQuestionIndex].difficulty.difficulty }}</p>
   <p>{{ questions[currentQuestionIndex].question }}</p>
 <p *ngIf="resultAnswer">{{ resultAnswer }}</p>
-  <div *ngFor="let answer of questions[currentQuestionIndex].answers; let j = index">
+  <div [ngClass]="{'bg-green': bgCorrect}" *ngFor="let answer of questions[currentQuestionIndex].answers; let j = index">
     <input
       type="radio"
       name="question{{currentQuestionIndex}}"
