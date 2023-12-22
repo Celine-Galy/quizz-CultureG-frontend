@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { QuestionService } from '../../services/question.service';
 import { Question } from 'src/app/model/model';
 
@@ -7,7 +7,7 @@ import { Question } from 'src/app/model/model';
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.css']
 })
-export class QuestionComponent implements OnInit{
+export class QuestionComponent implements OnInit, OnDestroy{
 public questions: Question[] = [];
 public currentQuestionIndex: number = 0;
 public userAnswers: { [key: number]: number } = {};
@@ -16,6 +16,7 @@ public isAnswerSubmitted: boolean = false;
 public score: number = 0;
 public scoreVisible: boolean = false;
 public resultAnswer: string = '';
+public bgCorrect: boolean = false;
 
   constructor(
     private questionService: QuestionService,
@@ -32,6 +33,7 @@ public resultAnswer: string = '';
   }
   nextQuestion(): void {
     this.isAnswerSelected = false;
+    this.bgCorrect = false;
     if (this.currentQuestionIndex < this.questions.length - 1) {
       this.currentQuestionIndex++;
     }
@@ -61,6 +63,7 @@ public resultAnswer: string = '';
       if (selectedAnswer.isCorrect) {
         console.log('Bonne réponse !', selectedAnswer);
         this.resultAnswer = 'Bonne réponse !';
+          this.bgCorrect = true;
         this.score++;
       } else {
         console.log('Mauvaise réponse.', selectedAnswer);
@@ -77,6 +80,10 @@ public resultAnswer: string = '';
       console.log('Score :', this.score);
       this.isAnswerSubmitted = true;
     }
+  }
+
+  ngOnDestroy(): void {
+    console.log('Questionnaire détruit.');
   }
 
 }
