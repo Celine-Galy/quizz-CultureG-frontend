@@ -14,6 +14,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class QuestionService {
+
   protected url = '/question';
 
   constructor(
@@ -30,5 +31,6 @@ export class QuestionService {
 
   createQuestion(question: Question): Observable<Question> {
     return this.http.post<Question>(BASE_URL + this.url, question, httpOptions);
-  }
+  } 
+ 
 }
