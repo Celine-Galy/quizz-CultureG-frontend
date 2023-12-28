@@ -34,6 +34,7 @@ private messageSubscription: Subscription = new Subscription();
   }
   nextQuestion(): void {
     this.isAnswerSelected = false;
+    this.isAnswerSubmitted = false;
     this.resultAnswer = '';
     if (this.currentQuestionIndex < this.questions.length - 1) {
       this.currentQuestionIndex++;
