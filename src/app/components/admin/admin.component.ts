@@ -5,6 +5,7 @@ import { CategoryService } from '../../services/category.service';
 import { Answer, Category } from '../../model/model';
 import { Difficulty } from '../../model/model';
 import { DifficultyService } from '../../services/difficulty.service';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-admin',
@@ -15,6 +16,51 @@ export class AdminComponent implements OnInit{
   form!: FormGroup
   public categories: Category[] = [];
   public levels: Difficulty[] = []
+  public editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: 'auto',
+    minHeight: '0',
+    maxHeight: 'auto',
+    width: '50%',
+    minWidth: '0',
+    translate: 'yes',
+    enableToolbar: true,
+    showToolbar: true,
+    placeholder: 'Enter text here...',
+    defaultParagraphSeparator: '',
+    defaultFontName: '',
+    defaultFontSize: '',
+    fonts: [
+      {class: 'roboto', name: 'Roboto'},
+      {class: 'arial', name: 'Arial'},
+      {class: 'times-new-roman', name: 'Times New Roman'},
+      {class: 'calibri', name: 'Calibri'},
+      {class: 'comic-sans-ms', name: 'Comic Sans MS'}
+    ],
+    customClasses: [
+    {
+      name: 'quote',
+      class: 'quote',
+    },
+    {
+      name: 'redText',
+      class: 'redText'
+    },
+    {
+      name: 'titleText',
+      class: 'titleText',
+      tag: 'h1',
+    },
+  ],
+  uploadUrl: 'v1/image',
+  sanitize: false,
+  toolbarPosition: 'top',
+  toolbarHiddenButtons: [
+    ['bold', 'italic'],
+    ['fontSize']
+  ]
+  };
 
   constructor(
     private questionService: QuestionService,
@@ -63,10 +109,10 @@ export class AdminComponent implements OnInit{
     this.form.value.answers = this.form.value.answers.filter((answer: Answer) => answer.answer !== '');
     this.form.value.answers.forEach((answer: any) => {
       answer.isCorrect = answer.isCorrect;
+
       answer.answer = answer.answer.trim();
-    }
-    );
-    //this.form.value.answers = this.form.value.answers.filter((answer: any) => answer.answer !== '');
+      console.log('answer', answer);
+    });
     console.log('form', this.form);
       if(this.form.valid) {
         this.questionService.createQuestion(this.form.value).subscribe(

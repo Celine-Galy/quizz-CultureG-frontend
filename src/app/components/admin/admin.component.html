@@ -1,18 +1,33 @@
-<p>admin works!</p>
+<div class="container mt-2">
+  <h1>Ajouter une question</h1>
 <form [formGroup]="form" (ngSubmit)="form.valid && onSubmit()">
-    <div class="form-group">
+  <div class="form-group">
+
+  <mat-form-field>
+    <mat-label>Catégorie</mat-label>
+    <mat-select class="form-control" formControlName="category">
+      <mat-option *ngFor="let category of categories" [value]="category.id">{{category.category}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  </div>
+<!--     <div>
         <label for="category">Catégorie</label>
-        <select class="form-control" formControlName="category">
+        <select formControlName="category">
           <option *ngFor="let category of categories" [value]="category.id">{{category.category}}</option>
         </select>
-    </div>
+    </div> -->
     <div class="form-group">
-        <label for="level">Niveau</label>
-        <select class="form-control" formControlName="difficulty">
+      <mat-form-field>
+        <mat-label>Difficulté</mat-label>
+        <mat-select class="form-control" formControlName="difficulty">
+          <mat-option *ngFor="let level of levels" [value]="level.id">{{level.difficulty}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+        <!-- <select class="form-control" formControlName="difficulty">
           <option *ngFor="let level of levels" [value]="level.id">{{level.difficulty}}</option>
-        </select>
+        </select> -->
     </div>
-    <div class="form-group">
+<!--     <div class="form-group">
         <label for="question">Question</label>
         <input 
         type="text" 
@@ -20,19 +35,41 @@
         formControlName="question"
         placeholder="Question"
         required>
+    </div> -->
+    <div class="form-group">
+        <mat-label>Question:</mat-label>
+    <angular-editor formControlName="question" [config]="editorConfig"></angular-editor>
     </div>
-    <div formArrayName="answers">
+    <div formArrayName="answers" class="form-group">
         <div *ngFor="let objet of answersArray.controls; let i = index" [formGroupName]="i">
           <!-- définir les champs pour chaque objet -->
-        <label>Réponse 
-        <input type="text" formControlName="answer"></label>
-        <input type="checkbox" formControlName="isCorrect"> Correct
+          <mat-form-field>
+            <mat-label>Réponse</mat-label>
+            <input 
+            matInput
+            value="answer"
+            type="text" 
+            formControlName="answer"
+             >
+          </mat-form-field>
+         <mat-form-field>
+            <mat-label>Correct</mat-label>
+            
+            <mat-select class="form-control" formControlName="isCorrect">
+              <mat-option [value]="true">Oui</mat-option>
+              <mat-option [value]="false">Non</mat-option>
+            </mat-select>
+         </mat-form-field>
+<!--         <label>Réponse 
+        <input type="text" formControlName="answer"></label> -->
+    
+      <!--   <input type="checkbox" formControlName="isCorrect"> Correct
+    -->
         </div>
       </div>
-      <button type="button" (click)="pushAnswers()">Ajouter Objet</button>
- 
-
-    <div class="mt-5">
-        <button type="submit" class="btn btn-purple">Valider</button>
+      <button class="mt-2" mat-raised-button (click)="pushAnswers()">Ajouter Objet</button>
+    <div class="mt-2">
+        <button mat-raised-button color="primary" type="submit" class="btn btn-purple">Valider</button>
     </div>
 </form>
+</div>
