@@ -17,6 +17,8 @@ public isAnswerSubmitted: boolean = false;
 public score: number = 0;
 public scoreVisible: boolean = false;
 public resultAnswer: string = '';
+public answerTrue: boolean = false;
+public answerFalse: boolean = false;
 private messageSubscription: Subscription = new Subscription();
 
   constructor(
@@ -28,16 +30,38 @@ private messageSubscription: Subscription = new Subscription();
       questions => {
         console.log(questions);
         this.questions = questions;
+        this.selectRandomQuestions(this.questions, 5);
       }
       
     );
   }
+
+  selectRandomQuestions(allQuestions: Question[], count: number): void {
+    this.questions = this.getRandomQuestions(allQuestions, count);
+    console.log('Questions sélectionnées au hasard :', this.questions);
+  }
+  getRandomQuestions(allQuestions: Question[], count: number): Question[] {
+    const shuffledQuestions = this.shuffleArray(allQuestions);
+    return shuffledQuestions.slice(0, count);
+  }
+  shuffleArray(array: any[]): any[] {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  }
+
   nextQuestion(): void {
     this.isAnswerSelected = false;
     this.isAnswerSubmitted = false;
+    this.answerTrue = false;
+    this.answerFalse = false;
     this.resultAnswer = '';
     if (this.currentQuestionIndex < this.questions.length - 1) {
       this.currentQuestionIndex++;
+      console.log('Question suivante :', this.currentQuestionIndex);
     }
   }
 
@@ -51,6 +75,7 @@ private messageSubscription: Subscription = new Subscription();
     this.isAnswerSelected = true;
     console.log('Réponse sélectionnée :', answerIndex);
     this.userAnswers[this.currentQuestionIndex] = answerIndex;
+
   }
 
   trackByFn(index: number, item: any): number {
@@ -60,9 +85,15 @@ private messageSubscription: Subscription = new Subscription();
 
   submitAnswers(): void {
     console.log('Réponses de l\'utilisateur :', this.userAnswers);
+if(this.questions[this.currentQuestionIndex].answers[this.userAnswers[this.currentQuestionIndex]].isCorrect === true){
+  this.answerTrue = true;
+} else {
+  this.answerFalse = true;
+}
     // Implémentez la logique pour vérifier les réponses ici
     const currentQuestion = this.questions[this.currentQuestionIndex];
     const userAnswerIndex = this.userAnswers[this.currentQuestionIndex];
+    console.log('Réponse de l\'utilisateur :', userAnswerIndex);
     const lastQuestionIndex = this.questions.length - 1;
     this.isAnswerSubmitted = true;
     this.isAnswerSelected = false;
