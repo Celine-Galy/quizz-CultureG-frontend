@@ -10,12 +10,6 @@
     </mat-select>
   </mat-form-field>
   </div>
-<!--     <div>
-        <label for="category">Catégorie</label>
-        <select formControlName="category">
-          <option *ngFor="let category of categories" [value]="category.id">{{category.category}}</option>
-        </select>
-    </div> -->
     <div class="form-group">
       <mat-form-field>
         <mat-label>Difficulté</mat-label>
@@ -23,19 +17,7 @@
           <mat-option *ngFor="let level of levels" [value]="level.id">{{level.difficulty}}</mat-option>
         </mat-select>
       </mat-form-field>
-        <!-- <select class="form-control" formControlName="difficulty">
-          <option *ngFor="let level of levels" [value]="level.id">{{level.difficulty}}</option>
-        </select> -->
     </div>
-<!--     <div class="form-group">
-        <label for="question">Question</label>
-        <input 
-        type="text" 
-        class="form-control" 
-        formControlName="question"
-        placeholder="Question"
-        required>
-    </div> -->
     <div class="form-group">
         <mat-label>Question:</mat-label>
     <angular-editor formControlName="question" [config]="editorConfig"></angular-editor>
@@ -60,11 +42,6 @@
               <mat-option [value]="false">Non</mat-option>
             </mat-select>
          </mat-form-field>
-<!--         <label>Réponse 
-        <input type="text" formControlName="answer"></label> -->
-    
-      <!--   <input type="checkbox" formControlName="isCorrect"> Correct
-    -->
         </div>
       </div>
       <button class="mt-2" mat-raised-button (click)="pushAnswers()">Ajouter Objet</button>

@@ -11,11 +11,12 @@
   <p>{{ questions[currentQuestionIndex].category.category }}</p>
 <p>{{ questions[currentQuestionIndex].difficulty.difficulty }}</p>
   <p>{{ questions[currentQuestionIndex].question }}</p>
-<p class={{ bg-green }} *ngIf="resultAnswer">{{ resultAnswer }}</p>
+<p *ngIf="resultAnswer">{{ resultAnswer }}</p>
 
     <mat-radio-group [(ngModel)]="userAnswers[currentQuestionIndex]" 
     *ngFor="let answer of questions[currentQuestionIndex].answers; let j = index">
       <mat-radio-button
+      [ngStyle]="{'background-color': answerTrue && answer.isCorrect || answerFalse && answer.isCorrect ? 'green': answerFalse && !answer.isCorrect ? 'red' : ''}"
       (change)="onAnswerSelect(j)"
         value="{{j}}">{{answer.answer}}
       </mat-radio-button>
